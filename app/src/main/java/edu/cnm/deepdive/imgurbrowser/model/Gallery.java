@@ -75,7 +75,7 @@ public class Gallery {
   }
 
   public Image[] getImages() {
-    return images;
+    return (images != null) ? images : new Image[0];
   }
 
   public void setImages(Image[] images) {
@@ -83,7 +83,7 @@ public class Gallery {
   }
 
   public static class Search {
-
+    @Expose
     private Gallery[] data;
 
     public Gallery[] getData(){
