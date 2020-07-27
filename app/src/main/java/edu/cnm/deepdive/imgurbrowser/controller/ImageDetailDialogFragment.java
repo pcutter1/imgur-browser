@@ -1,0 +1,90 @@
+package edu.cnm.deepdive.imgurbrowser.controller;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.squareup.picasso.Picasso;
+import edu.cnm.deepdive.imgurbrowser.R;
+import edu.cnm.deepdive.imgurbrowser.model.Image;
+
+
+public class ImageDetailDialogFragment extends DialogFragment {
+
+  private Image image;
+
+  public static ImageDetailDialogFragment newInstance(Image image) {
+
+    ImageDetailDialogFragment fragment = new ImageDetailDialogFragment();
+    Bundle args = new Bundle();
+    args.putSerializable("image", image);
+    fragment.setArguments(args);
+
+    return fragment;
+  }
+
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (getArguments() != null) {
+      image = (Image) getArguments().getSerializable("image");
+    }
+  }
+
+  @NonNull
+  @Override
+  public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_image_detail_dialogue, null, false);
+
+    ImageView imageView = view.findViewById(R.id.image_detail);
+    TextView imageDescription = view.findViewById(R.id.image_description);
+    TextView imageId = view.findViewById(R.id.image_id);
+    TextView imageDateTime = view.findViewById(R.id.image_datetime);
+    TextView imageUrl = view.findViewById(R.id.image_url);
+    TextView imageType = view.findViewById(R.id.image_type);
+    TextView imageWidth = view.findViewById(R.id.image_width);
+    TextView imageHeight = view.findViewById(R.id.image_height);
+    TextView imageViews = view.findViewById(R.id.image_views);
+    TextView imageBandwidth = view.findViewById(R.id.image_bandwidth);
+
+    if (image.getUrl() != null) {
+      Picasso.get().load(image.getUrl()).into(imageView);
+    }
+
+    imageDescription.setText((image.getDescription()) != null ? image.getDescription() : "Description N/A");
+    imageId.setText((image.getImageId()) != null ? "Id:" + image.getImageId() : "Image ID N/A");
+    imageDateTime.setText((image.getImageDateTime() != null) ? "Submitted:" + image.getImageDateTime() : "DateTime N/A");
+    imageUrl.setText((image.getUrl() != null) ? "Image Url:" + image.getUrl() : "Url N/A");
+    imageType.setText((image.getType() != null) ? "Type of Image:" + image.getType() : "Tpye N/A");
+    imageWidth.setText((image.getWidth() != null) ? "Width:" + image.getWidth() : "Width N/A");
+    imageHeight.setText((image.getHeight() != null) ? "Height:" + image.getHeight() : "Height N/A");
+    imageViews.setText((image.getViews() != null) ? "Views:" + image.getViews() : "Views N/A");
+    imageBandwidth.setText((image.getBadnwidth() != null) ? "Bandwidth:" + image.getBadnwidth() : "Bandwidth N/A");
+
+    AlertDialog dialog = new AlertDialog.Builder(getContext())
+        .setTitle((image.getTitle() != null) ? image.getTitle() : "Untitled")
+        .setView(view)
+        .setPositiveButton(R.string.close_image_dialog, (dlg, which) -> {
+        })
+        .create();
+
+    return dialog;
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    return null;
+  }
+}
