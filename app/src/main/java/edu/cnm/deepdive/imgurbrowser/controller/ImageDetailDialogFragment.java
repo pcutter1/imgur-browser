@@ -64,7 +64,7 @@ public class ImageDetailDialogFragment extends DialogFragment {
 
     imageDescription.setText((image.getDescription()) != null ? image.getDescription() : "Description N/A");
     imageId.setText((image.getImageId()) != null ? "Id:" + image.getImageId() : "Image ID N/A");
-    imageDateTime.setText((image.getImageDateTime() != null) ? "Submitted:" + image.getImageDateTime() : "DateTime N/A");
+    imageDateTime.setText((image.getImageDateTime() != null) ? "Submitted:" + convertTime(image.getImageDateTime()) : "DateTime N/A");
     imageUrl.setText((image.getUrl() != null) ? "Image Url:" + image.getUrl() : "Url N/A");
     imageType.setText((image.getType() != null) ? "Type of Image:" + image.getType() : "Tpye N/A");
     imageWidth.setText((image.getWidth() != null) ? "Width:" + image.getWidth() : "Width N/A");
@@ -87,4 +87,10 @@ public class ImageDetailDialogFragment extends DialogFragment {
       Bundle savedInstanceState) {
     return null;
   }
+
+  private String convertTime(long epoch) {
+    return new java.text.SimpleDateFormat("MMMM-dd-yyyy hh:mm aa z")
+        .format(new java.util.Date(epoch * 1000));
+  }
+
 }
